@@ -49,6 +49,8 @@ public class PersonGenerator {
 
             rec = ID + ", " + fname + ", " + lname + ", " + title + ", " + yob;
 
+            Person person = new Person(ID, fname, lname, title, yob);
+
             System.out.println(rec);
 
             recs.add(rec);

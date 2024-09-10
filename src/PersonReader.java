@@ -12,7 +12,7 @@ public class PersonReader {
         File selectedFile;
         String rec = "";
         ArrayList<String> lines = new ArrayList<>();
-
+        ArrayList<Person> people = new ArrayList<>();
         /*
 
         Here is the data file we are reading:
@@ -26,7 +26,7 @@ public class PersonReader {
 
         final int FIELDS_LENGTH = 5;
 
-        String id, firstName, lastName, title;
+        String ID, firstName, lastName, title;
         int yob;
 
         try
@@ -57,15 +57,11 @@ public class PersonReader {
                     lines.add(rec);  // read all the lines into memory in an array list
                     line++;
                     // echo to screen
-                    System.out.printf("\nLine %4d %-60s ", line, rec);
                 }
                 reader.close(); // must close the file to seal it and flush buffer
                 System.out.println("\n\nData file read!");
 
                 // Create neatly formatted display
-
-                System.out.println(String.format("%-7s %-24s %-24s %-7s %s", "ID#", "Firstname", "Lastname", "Title", "YOB"));
-                System.out.println("======================================================================");
 
                 // Now process the lines in the arrayList
                 // Split the line into the fields by using split with a comma
@@ -80,18 +76,29 @@ public class PersonReader {
 
                     if(fields.length == FIELDS_LENGTH)
                     {
-                        id        = fields[0].trim();
-                        firstName = fields[1].trim();
-                        lastName  = fields[2].trim();
+                        ID        = fields[1].trim();
+                        firstName = fields[2].trim();
+                        lastName  = fields[0].trim();
                         title     = fields[3].trim();
                         yob       = Integer.parseInt(fields[4].trim());
-                        System.out.printf("\n%-8s%-25s%-25s%-6s%6d", id, firstName, lastName, title, yob);
+                        Person person = new Person(ID, firstName, lastName, title, yob);
+                        people.add(person);
+                        System.out.println(person);
                     }
+
                     else
                     {
                         System.out.println("Found a record that may be corrupt: ");
                         System.out.println(l);
                     }
+                }
+                System.out.println("\nFull Names:");
+                for (Person person : people) {
+                    System.out.println(person.fullName());
+                }
+                System.out.println("\nFormal Names:");
+                for (Person person : people) {
+                    System.out.println(person.formalName());
                 }
 
             }
@@ -101,6 +108,7 @@ public class PersonReader {
                 System.out.println("Run the program again!");
                 System.exit(0);
             }
+
         }  // end of TRY
         catch (FileNotFoundException e)
         {
